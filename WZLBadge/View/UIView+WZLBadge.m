@@ -65,6 +65,15 @@ static const CGFloat kWZLBadgeDefaultRedDotRadius = 4.f;
     }
 }
 
+- (void)showCustomTextBadgeWithValue:(NSString *)value animationType:(WBadgeAnimType)aniType {
+    self.aniType = aniType;
+    [self showTextBadgeWithValue:value];
+    
+    if (aniType != WBadgeAnimTypeNone) {
+        [self beginAnimation];
+    }
+}
+
 /**
  *  clear badge
  */
@@ -145,6 +154,30 @@ static const CGFloat kWZLBadgeDefaultRedDotRadius = 4.f;
     self.badge.frame = frame;
     self.badge.center = CGPointMake(CGRectGetWidth(self.frame) + 2 + self.badgeCenterOffset.x, self.badgeCenterOffset.y);
     self.badge.layer.cornerRadius = CGRectGetHeight(self.badge.frame) / 2;
+}
+
+- (void)showTextBadgeWithValue:(NSString *)value
+{
+    [self badgeInit];
+    self.badge.hidden = (value == nil);
+    //self.badge.tag = WBadgeStyleNumber;
+    self.badge.font = self.badgeFont;
+    self.badge.text = value;
+    [self adjustLabelWidth:self.badge];
+    CGRect frame = self.badge.frame;
+    frame.size.width += 4;
+    frame.size.height += 4;
+    if(CGRectGetWidth(frame) < CGRectGetHeight(frame)) {
+        frame.size.width = CGRectGetHeight(frame);
+    }
+    self.badge.frame = frame;
+    self.badge.center = CGPointMake(CGRectGetWidth(self.frame) + 2 + self.badgeCenterOffset.x, self.badgeCenterOffset.y);
+    self.badge.layer.cornerRadius = CGRectGetHeight(self.badge.frame) / 2;
+}
+
+- (void)adjustBadgeSize:(CGFloat)adjust {
+    self.badgeFrame = CGRectMake(CGRectGetMinX(self.badge.frame), CGRectGetMinY(self.badge.frame), CGRectGetWidth(self.badge.frame) + adjust, CGRectGetHeight(self.badge.frame) + adjust);
+    self.badgeRadius = CGRectGetHeight(self.badge.frame) / 2;
 }
 
 //lazy loading
@@ -379,6 +412,7 @@ static const CGFloat kWZLBadgeDefaultRedDotRadius = 4.f;
     if (!self.badge) {
         [self badgeInit];
     }
+    self.badge.layer.cornerRadius = badgeRadius;
 }
 
 - (CGFloat)badgeRadius {

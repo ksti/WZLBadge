@@ -42,6 +42,14 @@
 - (void)showNumberBadgeWithValue:(NSInteger)value;
 
 /**
+ showCustomTextBadgeWithValue
+
+ @param value NSString custom text
+ @param aniType WBadgeAnimType defualt is  WBadgeAnimTypeNone
+ */
+- (void)showCustomTextBadgeWithValue:(NSString *)value animationType:(WBadgeAnimType)aniType;
+
+/**
  *  clear badge(hide badge)
  */
 - (void)clearBadge;
@@ -50,5 +58,10 @@
  *  make bage(if existing) not hiden
  */
 - (void)resumeBadge;
+
+/**
+ *  adjust bage width and height
+ */
+- (void)adjustBadgeSize:(CGFloat)adjust;
 
 @end
